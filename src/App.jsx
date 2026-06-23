@@ -3,20 +3,23 @@ import { useState } from "react";
 const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [qrCodeURL, setQRCodeURL] = useState(
-    "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=HelloWorld",
+    `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${inputValue}`,
   );
   const [showButton, setShowButton] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false);
 
   const handleBtnVisibility = (e) => {
     setShowButton(e.target.value.trim() !== "");
   };
 
-  const handleGenerateQRCode = (e) => {
+  const handleGenerateQRCode = () => {
     setQRCodeURL(
       `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-        e.target.value,
+        inputValue,
       )}`,
     );
+
+    setShowQRCode(true);
   };
 
   return (
@@ -27,7 +30,15 @@ const App = () => {
         </h1>
 
         <div className="flex justify-center align-center mb-4">
-          <img src={qrCodeURL} alt="QR code" title="QR code" />
+          {inputValue.trim() !== "" && showQRCode ? (
+            <img src={qrCodeURL} alt="QR code" title="QR code" />
+          ) : (
+            <div className="w-40 h-40 bg-zinc-500/30 flex items-center justify-center rounded-lg shadow-md">
+              <h2 className="text-center font-bold font-mono text-zinc-400/80">
+                Paste or type to generate QR Code
+              </h2>
+            </div>
+          )}
         </div>
       </div>
 
@@ -50,18 +61,15 @@ const App = () => {
           <div className="flex justify-center gap-4 mt-4">
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md"
-              onClick={() =>
-                setQRCodeURL(
-                  `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-                    inputValue,
-                  )}`,
-                )
-              }
+              onClick={handleGenerateQRCode}
             >
               Generate QR Code
             </button>
 
-            <button className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md">
+            <button
+              // onClick={handleCopy}
+              className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -79,7 +87,10 @@ const App = () => {
               </svg>
             </button>
 
-            <button className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md">
+            <button
+              // onClick={handleDownload}
+              className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
