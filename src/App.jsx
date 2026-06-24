@@ -22,9 +22,16 @@ const App = () => {
     setShowQRCode(true);
   };
 
+  const handleDownload = () => {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = qrCodeURL;
+    downloadLink.download = `${inputValue}_qr_code.png`;
+    downloadLink.click();
+  };
+
   return (
     <div className="flex items-center justify-center h-screen bg-zinc-800 flex-col gap-4">
-      <div className="w-80 bg-zinc-600/30 rounded-xl p-5 shadow-lg">
+      <div className="w-80 bg-zinc-600/30 rounded-xl p-5 shadow-lg border border-zinc-400/30">
         <h1 className="text-white text-2xl font-bold text-center mb-4">
           QR Code Generator
         </h1>
@@ -33,7 +40,7 @@ const App = () => {
           {inputValue.trim() !== "" && showQRCode ? (
             <img src={qrCodeURL} alt="QR code" title="QR code" />
           ) : (
-            <div className="w-40 h-40 bg-zinc-500/30 flex items-center justify-center rounded-lg shadow-md">
+            <div className="w-40 h-40 bg-zinc-500/30 flex items-center justify-center rounded-lg shadow-md p-2">
               <h2 className="text-center font-bold font-mono text-zinc-400/80">
                 Paste or type to generate QR Code
               </h2>
@@ -66,7 +73,7 @@ const App = () => {
               Generate QR Code
             </button>
 
-            <button
+            {/* <button
               // onClick={handleCopy}
               className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md"
             >
@@ -88,7 +95,7 @@ const App = () => {
             </button>
 
             <button
-              // onClick={handleDownload}
+              onClick={handleDownload}
               className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-md"
             >
               <svg
@@ -107,7 +114,7 @@ const App = () => {
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <path d="m7 10 5 5 5-5" />
               </svg>
-            </button>
+            </button> */}
           </div>
         )}
       </div>
